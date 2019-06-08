@@ -20,6 +20,8 @@ ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
 
 COPY nginx/ssl /etc/ssl/nginx/
 
+# Fix jessie repos
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 # Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
@@ -51,7 +53,7 @@ RUN /usr/local/bin/install-nginx.sh && \
   ln -sf /dev/stdout /var/log/nginx/access_log && \
   ln -sf /dev/stderr /var/log/nginx/error_log && \
   mkdir /tmp/sockets && \
-  gem install bundler && \
+  gem install bundler --version '<2.0' && \
   bundle install --force
 
 RUN mkdir -p /var/log/unicorn && \
