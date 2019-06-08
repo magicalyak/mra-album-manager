@@ -20,8 +20,6 @@ ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
 
 COPY nginx/ssl /etc/ssl/nginx/
 
-# Fix jessie repos
-RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 # Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
